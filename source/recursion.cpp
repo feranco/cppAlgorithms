@@ -1,8 +1,11 @@
+#include "recursion.h"
+#include <iostream>
+#include <string>
 
-const char* expr = "(5 * (((9+8) * (4+6)) + 7))"; //infix string
+const char* expr = "(5 * (((9+8) * (4*6)) + 7))"; //infix string
 int idx = 0; //currently evaluated character
 
-int baseEval (int l, char op, int r) {
+int calc (int l, char op, int r) {
   
   switch (op) {
   case '+':
@@ -20,46 +23,101 @@ int baseEval (int l, char op, int r) {
  case '/':
     return l / r;
     break;
+
+  default:
+    return 0;
   }
 }
 
 int infixEval () {
   int token;
-  int x = 0;
   char op = 0;
   int lhs, res;
 
-  while (expr[idx]!=0) {
+  while (1) {
 
     token = expr[idx++];
 
     if (token == ' ') continue; //skip spaces
 
     if (token >= '0' && token <= '9') {
-
-      while (expr[i] >= '0' && expr[i] <= '9') { //convert string numbers to int 
-	x = 10 * x + expr[i++] - '0';
+      int x = 0;
+      --idx; //necessary to manage multiple digit numbers
+      //convert string numbers to int 
+      while (expr[idx] >= '0' && expr[idx] <= '9') {
+	x = 10 * x + expr[idx++] - '0';
       }
 
       if (op == 0) {
 	lhs = x;
       }
       else {
-	res = baseEval (lhs, op, x);
+	res = calc (lhs, op, x);
       }
     }
     
     if (token == '(') {
-      infixEval();
+      int x = infixEval();
+      if (expr[idx] == 0) return x; //return the final value
+      if (op == 0) {
+	lhs = x;
+      }
+      else {
+	res = calc(lhs, op, x);
+      }
     }
 
     if (token == '+' || token == '-' || token == '*' || token == '/') {
-      op = expr[i++];
+      op = token;
     }
 
-     if (expr[i++] == ')') {
-       return res;
+    if (token == ')') {
+      return res;
     } 
+  }
+  return res;
+}
+
+void infixToPostfix (void) {
+  char op; //hold the current level operator
+  char token;
+
+  while (expr[idx] != 0) {
+    
+    token = expr[idx++];
+
+    if (token  == ' ') continue; //skip spaces
+
+    if (token >= '0' && token <= '9') {
+      std::cout << token << " ";
+    }
+    else if (token == '+' || token == '*') {
+      op = token;
+    }
+    else if (token == '(') {
+      infixToPostfix();
+    }
+    else if (token == ')') {
+      std::cout << op << " ";
+      return;
+    } 
+  }
+}
+
+std::string postfix = "";
+
+void postfixToInfix (void) {
+    /*
+  static int count = 0;
+  int level = count;
+  char token;
+  int x;
+  
+  while (pn[idx] != 0) {
+
+    token = pn[idx++];
+    
     
   }
+     */
 }
