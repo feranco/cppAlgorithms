@@ -73,29 +73,44 @@ void List::reverse(void) {
   head = r;
 }
 
-void List::reverseRec(void) {
-  static link r = 0;
-  static link y = head;
-  link t = y->next;
-  y->next = r;
-  r = y;
-  y = t;
-  reverseRec();
-  
+List::link List::get (void) {
+  return head;
 }
-/*
-void removeLastRec (void) {
-  static link t = head;
-  if (t->next == 0) {
-    delete t->next;
+
+void List::set (link t) {
+  head = t;
+}
+
+void reverseRec(List& nr) {
+  static List::link r = 0;
+
+  if (!nr.head) {
+    nr.head = r;
     return;
   }
-  else{
-    t = t->next;
-    removeLastRec();
-  }
+
+  List::link t = nr.head->next;
+  nr.head->next = r;
+  r = nr.head;
+  nr.head = t;
+  reverseRec(nr);  
 }
-*/
+
+void removeLastRec (List::link t) {
+  if (t->next->next == 0) {
+    delete t->next;
+    t->next = 0;
+    return;
+  }
+  removeLastRec(t->next);
+}
+
+Item max(List::link t) {
+  if (t->next == 0) return t->item;
+  Item r = max (t->next);
+  return (t->item > r) ? t->item : r;
+}
+
 void List::biggestBack(void) {
   link biggest = head;
   link preBiggest = 0;

@@ -4,7 +4,7 @@
 
 typedef int Item;
  
- class List {
+class List {
    //Node definition
    struct Node {
      Item  item;
@@ -27,8 +27,11 @@ typedef int Item;
    void reverse(void);
    void sort(void);
    void removeEven(void);
-   void reverseRec(void);
-   //friend void removeLastRec(link t);
+   link get (void);
+   void set (link t);
+   friend void removeLastRec(link t);
+   friend void reverseRec(List& nr);
+   friend Item max(link t);
    friend int oddTest(link t);
  };
 
