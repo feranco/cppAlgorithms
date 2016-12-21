@@ -1,6 +1,7 @@
 #include "recursion.h"
 #include <iostream>
 #include <string>
+#include <cmath> //pow
 
 const char* expr = "(5 * (((9+8) * (4*6)) + 7))"; //infix string
 int idx = 0; //currently evaluated character
@@ -11,7 +12,7 @@ int calc (int l, char op, int r) {
   case '+':
     return l + r;
     break;
-
+    
   case '-':
     return l - r;
     break;
@@ -104,20 +105,68 @@ void infixToPostfix (void) {
   }
 }
 
-std::string postfix = "";
 
-void postfixToInfix (void) {
-    /*
-  static int count = 0;
-  int level = count;
-  char token;
-  int x;
+void binaryMatrix (int** bm, int n) {
   
-  while (pn[idx] != 0) {
-
-    token = pn[idx++];
-    
-    
-  }
-     */
+  if (n == 0) return;
+  
+  int rows = pow (2, n);
+  int m = pow (2, n-1);
+  for (int i= 0; i < m; ++i) bm[i][n-1] = 0;
+  binaryMatrix (bm, n-1);
+  for (int i= m; i < rows; ++i) bm[i][n-1] = 1;
+  binaryMatrix (&bm[m], n-1);
 }
+
+void testBinaryMatrix (int n) {
+
+  int rows = pow (2, n);
+
+  //create matrix
+  int** bm;
+  bm = new int*[rows];
+  for (int i = 0; i < rows; ++i) {
+    bm[i] = new int[n];
+  }
+
+  //fill matrix
+  binaryMatrix (bm, n);
+
+  //print matrix
+  for (int i = 0; i < rows; ++i) {
+    for (int j = n-1; j >=0; --j) {
+      std::cout << bm[i][j] << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  //delete matrix
+  for (int i = 0; i < n; ++i) {
+    delete[] bm[i];
+  }
+  delete[] bm;
+}
+
+int getRulerMark (int i) {
+  static int cnt = 0;
+  int m = i/2;
+  if (m != 0) {
+    if (i%2 == 0) cnt++;
+    else cnt = 0;
+    getRulerMark (m);
+  }
+  return cnt;
+}
+
+int getRulerMark (int i) {
+  int m = i/2;
+  if (m != 0) {
+    if (i%2 == 0) cnt++;
+    else cnt = 0;
+    getRulerMark (m);
+  }
+  return cnt;
+}
+
+
+
