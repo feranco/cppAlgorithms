@@ -1,5 +1,5 @@
 #include "stack.h"
-
+#include <cstring>
 //global functions
 
 std::ostream& operator<<(std::ostream& out, const Stack& rhs) {

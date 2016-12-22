@@ -157,7 +157,7 @@ int getRulerMark (int i) {
   }
   return cnt;
 }
-
+/*
 int getRulerMark (int i) {
   int m = i/2;
   if (m != 0) {
@@ -167,6 +167,6 @@ int getRulerMark (int i) {
   }
   return cnt;
 }
-
+*/
 
 
