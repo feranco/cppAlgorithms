@@ -110,17 +110,35 @@ bool BinaryTree::isLeaf (link t) {
 int BinaryTree::subTreeMix (link t) {
   int n_mix = 0;
 
-  if (isLeaf (t->l) == true && isLeaf (t->r) == true) {
+  if (isLeaf(t->l) == true && isLeaf(t->r) == true) {
     return 0;
   }
   
-  if (isLeaf (t->l) == true && isLeaf (t->r) == false) {
+  if (isLeaf(t->l) == true && isLeaf (t->r) == false) {
     n_mix += 1 + subTreeMix (t->r);
-  } else if (isLeaf (t->l) == false && isLeaf (t->r) == true) {
-    n_mix += 1 + subTreeMix (t->l);
+  } else if (isLeaf(t->l) == false && isLeaf(t->r) == true) {
+    n_mix += 1 + subTreeMix(t->l);
   } else {
-    n_mix += subTreeMix (t->l);
-    n_mix += subTreeMix (t->r);
+    n_mix += subTreeMix(t->l);
+    n_mix += subTreeMix(t->r);
   }
   return n_mix;
+}
+
+void BinaryTree::inorderTraversal (void) {
+  if (root->r) s.push(root->r);
+  s.push(root);
+  link t = root->l;
+
+  while (!s.empty()) {
+    while (t != 0) {
+      s.push(t);
+      t = t->l;
+    }
+    std::cout << s.top()->item;
+    t = s.top()->r;
+    s.pop();
+
+    //if (s.empty()) std::cout << t->item; //s.push(t);
+  }
 }

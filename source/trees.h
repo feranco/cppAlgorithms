@@ -2,6 +2,7 @@
 #define TREES_H
 
 #include <iostream>
+#include <stack>
 
 typedef int Item;
 
@@ -14,6 +15,8 @@ class BinaryTree {
   };
   typedef Node* link;
   link root;
+  std::stack<link> s;
+
  public:
   BinaryTree () {root = 0;};
   void dump (std::ostream& out, link t, int h) const;
@@ -27,7 +30,8 @@ class BinaryTree {
   int countMix (void);
   int subTreeMix (link t);
   bool isLeaf (link t);
-  int intPathLength (
+  void inorderTraversal (void);
+  
 };
 
 #endif

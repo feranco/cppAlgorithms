@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
   cout << "SSSSSSSSSSSS" <<endl;
   cout << bt.countLeaf() << endl;
   cout << bt.countMix() << endl;
+  bt.inorderTraversal();
   //out << bt.subTreeMix(this->root) << endl;
   //bt.removeLeaf (2);
   //cout << bt;
