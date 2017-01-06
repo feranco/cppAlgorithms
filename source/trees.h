@@ -15,23 +15,25 @@ class BinaryTree {
   };
   typedef Node* link;
   link root;
-  std::stack<link> s;
 
  public:
   BinaryTree () {root = 0;};
+  BinaryTree (const char* s, const char* l);
+  void preorderBuild (link t, const char* s, const char* l);
   void dump (std::ostream& out, link t, int h) const;
-  void Tournament (int a[],int l, int r);
-  friend link findMax (link t, int a[],int l, int r);
+  link getRoot (void);
   friend std::ostream& operator<< (std::ostream& out, const BinaryTree& bt);
   void removeLeaf (Item r);
   friend bool doRemoveLeaf (link t, Item r);
-  int countLeaf (void);
-  int subTreeLeaf (link t);
-  int countMix (void);
-  int subTreeMix (link t);
+  int countLeaf (link t);
+  int countMix (link t);
   bool isLeaf (link t);
+  void preorderTraversal (void);
   void inorderTraversal (void);
-  
+  void postorderTraversal (void);
+
+  void Tournament (int a[],int l, int r);
+  friend link findMax (link t, int a[],int l, int r);
 };
 
 #endif
