@@ -23,7 +23,7 @@ void BinaryTree::dump (std::ostream& out, link t, int h) const {
   for (int i = 0; i < h; ++i) {
       out << " ";
   }
-  out << t->item << std::endl;
+  out << (char)t->item << std::endl;
   dump (out, t->l, h+1);
 }
 
@@ -99,14 +99,15 @@ int BinaryTree::countMix (link t) {
 }
 
 BinaryTree::BinaryTree (const char* s, const char* l) {
-  root = preorderBuild(t, s++, l);
+  root = preorderBuild(root, s, l);
 }
 
-void BinaryTree::preorderBuild (link t, const char* s, const char* l) {
+BinaryTree::link BinaryTree::preorderBuild (link t, const char* s, const char* l) {
    static int i = 0;
    static int j = 0;
    if (s[i++] == '0') {
       t = new Node(l[j++]);
+      if (t->item == '*') t = 0; //Set fake nodes to null
     }
     else {
       t = new Node(l[j++]);
@@ -116,6 +117,7 @@ void BinaryTree::preorderBuild (link t, const char* s, const char* l) {
    return t;
 }
 
+//preorder traversal without recursion
 void BinaryTree::preorderTraversal (void) {
   std::stack<link> s;
   s.push(root);
@@ -123,103 +125,61 @@ void BinaryTree::preorderTraversal (void) {
     link t = s.top();
     std::cout << t->item << " "; // print current node
     s.pop(); //pop it from the stack
-    s.push(t->r); //push right subtree
-    s.push(t->l); //push left subtree
+    if (t->r) s.push(t->r); //push right subtree
+    if (t->l) s.push(t->l); //push left subtree
   }
 }
 
+//inorder traversal without recursion
 void BinaryTree::inorderTraversal (void) {
   std::stack<link> s;
-  if (root->r) s.push(root->r);
-  s.push(root);
-  link t = root->l;
-
-  while (!s.empty()) {
-    while (t != 0) {
-      s.push(t);
-      t = t->l;
-    }
-    std::cout << s.top()->item;
-    t = s.top()->r;
-    s.pop();
-
-    //if (s.empty()) std::cout << t->item; //s.push(t);
-  }
-}
-/*
-void BinaryTree::postorderTraversal (void) {
   link t = root;
-  int i = 0;
+  bool done = false;
 
-  while (t!=0 || !s.empty()) {
-    std::cout << ++i;
-    while (t != 0) { // go to the left until is possible
-      s.push(t->r);
+  while (!done) {
+    while (t != 0) { //explore left and push until possible
       s.push(t);
       t = t->l;
     }
-    
-    t = s.top();
-    s.pop();
-    if(!t->r) {//p is a leaf
-      std::cout << t->item << " ";
-      t = 0;
+
+    if (s.empty()) {
+      done = true;
     }
-    else {
-      link p = s.top();
+    else
+    {
+      std::cout << s.top()->item << " "; //print top
+      t = s.top()->r; //explore right 
       s.pop();
-      s.push(t);
-      t = p;
     }
   }
 }
-*/
+
 void BinaryTree::postorderTraversal (void) {
   std::stack<link> s;
   link t = root;
-  int i = 0;
+  bool done = false;
 
-  while (t!=0 || !s.empty()) {
-    std::cout << ++i;
-    while (t != 0) { // go to the left until is possible
-      s.push(t->r);
-      s.push(t);
+  //while (!done) {
+  do {
+    while (t) { //explore left until possible
+      if (t->r) s.push(t->r); //push right
+      s.push(t); //push node
       t = t->l;
     }
     
     t = s.top();
     s.pop();
-    if(!t->r) {//p is a leaf
+    if (t->r && t->r == s.top()) { //t has right child not explored
+      //link p = s.top();
+      s.pop();
+      s.push(t);
+      t = t->r;
+    }
+    else { //t is a leaf, a node without right or with right explored
       std::cout << t->item << " ";
       t = 0;
     }
-    else {
-      link p = s.top();
-      s.pop();
-      s.push(t);
-      t = p;
-    }
-  }
+    if (s.empty()) done = true;
+  }while (!s.empty())
 }
 
-
-void BinaryTree::Tournament (int a[],int l, int r) {
-  root = findMax (root, a, l, r);
-}
-
-BinaryTree::link findMax (BinaryTree::link t, int a[],int l,int r) {
-
-  int m = (l + r) / 2;
-  t = new  BinaryTree::Node (a[m]);
-  if (l == r) return t;
-  t->l  = findMax (t->l, a, l, m);
-  t->r = findMax (t->r, a, m+1, r);
-
-  if (t->l->item > t->r->item) {
-    t->item = t->l->item;
-  }
-  else {
-    t->item = t->r->item;
-  }
-  return t;
-}

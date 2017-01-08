@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stack>
 
-typedef int Item;
+typedef char Item;
 
 class BinaryTree {
   struct Node {
@@ -19,7 +19,7 @@ class BinaryTree {
  public:
   BinaryTree () {root = 0;};
   BinaryTree (const char* s, const char* l);
-  void preorderBuild (link t, const char* s, const char* l);
+  link preorderBuild (link t, const char* s, const char* l);
   void dump (std::ostream& out, link t, int h) const;
   link getRoot (void);
   friend std::ostream& operator<< (std::ostream& out, const BinaryTree& bt);
@@ -31,9 +31,6 @@ class BinaryTree {
   void preorderTraversal (void);
   void inorderTraversal (void);
   void postorderTraversal (void);
-
-  void Tournament (int a[],int l, int r);
-  friend link findMax (link t, int a[],int l, int r);
 };
 
 #endif
