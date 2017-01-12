@@ -1,4 +1,7 @@
 #include "trees.h"
+#include <queue>
+#include <stack>
+#include <utility>
 
 BinaryTree::link BinaryTree::getRoot (void) {
   return root;
@@ -181,5 +184,70 @@ void BinaryTree::postorderTraversal (void) {
     }
     if (s.empty()) done = true;
   }while (!s.empty())
+}
+
+void testLevelorderTraversal {
+  const char*s = "DBACFEG";
+  const char*l = "ABCDEFG";
+  //const char*s = "CBADE";
+  //const char*l = "ABCDE";
+  levelorderTraversal(s,l);
+}
+
+// build level order traversal from prorder and inorder
+void levelorderTraversal (const char* preOrder, const char* inOrder) {
+  std::queue<char> levOrder; //level order fifo: each node splits inorder in two intervals  
+  std::queue<int> inOrderLBound, inOrderUBound; //bound of the inorder intervals 
+  std::queue<int> preOrderIdx; //index used to pick next node to insert in levOrder
+  char node;
+  int nodeInOrder, currLBound, currUBound, currIdx;
+
+  //put the root and initialize other fifo accordingly
+  levOrder.push(preOrder[0]);
+  inOrderLBound.push(0);
+  inOrderUBound.push(strlen(inOrder) - 1);
+  preOrderIdx.push(0);
+
+  while (!levOrder.empty()) {
+    //get element from fifo queues
+    node = levOrder.front();
+    currLBound = inOrderLBound.front();
+    currUBound = inOrderUBound.front();
+    currIdx = preOrderIdx.front() + 1;
+    levOrder.pop();
+    inOrderLBound.pop();
+    inOrderUBound.pop();
+    preOrderIdx.pop();
+    
+    //print nodes in level order
+    std::cout << node << " ";
+
+    //search the index of the node in the curent inorder interval
+    nodeInOrder = 0;
+    for (int i = currLBound; i <= currUBound; ++i) {
+      if (node == inOrder[i]) nodeInOrder = i;
+    }
+
+    //compute the size of the two intervals
+    int sizeL = nodeInOrder - currLBound;
+    int sizeR = currUBound - nodeInOrder;
+
+    // put a node if the left interval is not empty
+    if (sizeL > 0) {
+      levOrder.push(preOrder[currIdx]);
+      inOrderLBound.push(currLBound);
+      inOrderUBound.push(nodeInOrder-1);
+      preOrderIdx.push(currIdx);
+    }
+
+    // put a node if the right interval is not empty
+    if(sizeR) {
+      levOrder.push(preOrder[currIdx + sizeL]);
+      inOrderLBound.push(currLBound + sizeL + 1);
+      inOrderUBound.push(currUBound);
+      preOrderIdx.push(currIdx + sizeL);
+    }
+
+  }
 }
 

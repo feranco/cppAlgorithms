@@ -18,6 +18,10 @@ int main(int argc, char* argv[])
   bt.preorderTraversal();
   bt.inorderTraversal();
   bt.postorderTraversal();
+
+  levelorderTraversal();
+
+  
   return 0;
 }
 

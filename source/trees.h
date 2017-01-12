@@ -2,7 +2,6 @@
 #define TREES_H
 
 #include <iostream>
-#include <stack>
 
 typedef char Item;
 
@@ -32,5 +31,8 @@ class BinaryTree {
   void inorderTraversal (void);
   void postorderTraversal (void);
 };
+
+void levelorderTraversal (const char* preOrder, const char* inOrder);
+void testLevelorderTraversal();
 
 #endif
