@@ -27,11 +27,13 @@ class BinaryTree {
   int countLeaf (link t);
   int countMix (link t);
   bool isLeaf (link t);
+  int  internalPathLength (link t, int l);
   void preorderTraversal (void);
   void inorderTraversal (void);
   void postorderTraversal (void);
 };
 
+void testTreeTraversal (void);
 void levelorderTraversal (const char* preOrder, const char* inOrder);
 void testLevelorderTraversal();
 

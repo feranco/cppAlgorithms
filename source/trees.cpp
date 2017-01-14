@@ -75,30 +75,45 @@ int BinaryTree::countLeaf (link t) {
 //return true if t is a leaf, false otherwise
 bool BinaryTree::isLeaf (link t) {
 
+  if(!t) return false;
+
   if (t->l == 0 && t->r == 0) {
     return true;
   }
-  return false;
+  else {
+    return false;
+  }
 }
 
 // count how many nodes with one child external
 // and one child external are included in the t tree
 int BinaryTree::countMix (link t) {
   int n_mix = 0;
-
-  if (isLeaf(t->l) == true && isLeaf(t->r) == true) {
+  //t is a leaf
+  if (!t || (isLeaf(t->l) == true && isLeaf(t->r) == true)) {
     return 0;
   }
+
   
   if (isLeaf(t->l) == true && isLeaf (t->r) == false) {
-    n_mix += 1 + countMix (t->r);
+    n_mix += 1 + countMix (t->r); //t is a mix without r 
   } else if (isLeaf(t->l) == false && isLeaf(t->r) == true) {
-    n_mix += 1 + countMix(t->l);
+    n_mix += 1 + countMix(t->l); //t is a mix without l
   } else {
-    n_mix += countMix(t->l);
+    n_mix += countMix(t->l); //t is internal
     n_mix += countMix(t->r);
   }
   return n_mix;
+}
+
+int BinaryTree::internalPathLength (link t, int l) {
+
+  if(!t || isLeaf(t)) {
+    return 0;
+  }
+  else {
+    return l + internalPathLength(t->l, l+1) + internalPathLength(t->r, l+1);
+  }
 }
 
 BinaryTree::BinaryTree (const char* s, const char* l) {
@@ -183,10 +198,29 @@ void BinaryTree::postorderTraversal (void) {
       t = 0;
     }
     if (s.empty()) done = true;
-  }while (!s.empty())
+  }while (!s.empty());
 }
 
-void testLevelorderTraversal {
+void testTreeTraversal (void) {
+  //const char*s = "1100100";
+  //const char*l = "cba*d*e";
+  //const char*s = "1100100";
+  //const char*l = "dbacfeg";
+  //BinaryTree bt(s, l);
+  //std::cout << bt;
+  //std::cout << bt.countLeaf(bt.getRoot()) << std::endl;
+  //std::cout << bt.countMix(bt.getRoot()) << std::endl;
+  //bt.preorderTraversal();
+  //bt.inorderTraversal();
+  //bt.postorderTraversal();
+  const char*s = "11100011000";
+  const char*l = "edbac*hf*g*";
+  BinaryTree bt(s, l);
+  std::cout << bt;
+  std::cout << bt.internalPathLength(bt.getRoot(),0);
+}
+
+void testLevelorderTraversal (void) {
   const char*s = "DBACFEG";
   const char*l = "ABCDEFG";
   //const char*s = "CBADE";

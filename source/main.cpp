@@ -1,4 +1,4 @@
-#include "trees.h"
+#include "graph.h"
 #include <iostream>
 #include <stdio.h>
 
@@ -7,21 +7,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  //const char*s = "1100100";
-  //const char*l = "cba*d*e";
-  const char*s = "1100100";
-  const char*l = "dbacfeg";
-  BinaryTree bt(s, l);
-  cout << bt;
-  //cout << bt.countLeaf(bt.getRoot()) << endl;
-  //cout << bt.countMix(bt.getRoot()) << endl;
-  bt.preorderTraversal();
-  bt.inorderTraversal();
-  bt.postorderTraversal();
 
-  levelorderTraversal();
-
-  
+  Graph g(8);
+  const char* v = "0 1 0 2 0 5 0 6 0 7 1 7 2 7 3 4 3 5 4 5 4 6 4 7";
+  g.build(v);
+  g.recDepthFirst();
   return 0;
 }
 
