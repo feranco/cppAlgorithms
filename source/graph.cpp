@@ -1,5 +1,7 @@
 #include "graph.h"
 #include <iostream>
+#include <stack>
+#include <queue>
 
 Graph::Graph (int n) :  nVertex(n) {
   adjList = new link[nVertex];
@@ -46,20 +48,58 @@ void Graph::recDepthFirst (void) {
 }
 
 void Graph::recTraversal (int v) {
-  
-  for (int i = v; i < nVertex; ++i) {
-   
-    link t = adjList[i];
-    if(!visited[i]) {
-      std::cout << i << " ";
-      visited[i] = 1;
     
-      while (t != 0) {
-	if (!visited[t->item]) {
-	recTraversal(t->item);
-      }
-      t = t->next;
-      }
+    if(!visited[v]) {
+        std::cout << v << " ";
+        visited[v] = 1;
+        
+        for (link t = adjList[v]; t != 0; t = t->next) {
+            if (!visited[t->item]) recTraversal(t->item);
+        }
     }
-  }
+}
+
+void Graph::itDepthFirst (void) {
+    
+    std::stack<link> s;
+    for (int i = 0; i < nVertex; ++i) visited[i] = 0;
+    
+    //visit first vertex and push its list
+    s.push(adjList[0]);
+    std::cout << 0 << " ";
+    visited[0] = 1;
+    
+    while (!s.empty()) {
+        //pop current vertex
+        link t = s.top();
+        s.pop();
+        
+        //push next vertex in the previous list
+        if(t->next) s.push(t->next);
+        
+        //visit current vertex and push its list if not already visited
+        if (!visited[t->item]) {
+            std::cout << t->item << " ";
+            visited[t->item] = 1;
+            s.push(adjList[t->item]);
+        }
+    }
+    std::cout << std::endl;
+}
+
+void Graph::breadthFirst (void) {
+    
+    std::queue<int> q;
+    for (int i = 0; i < nVertex; ++i) visited[i] = 0;
+    q.push(0);
+    
+    while (!q.empty()) {
+        int t = q.front();
+        q.pop();
+        if(!visited[t]) {
+            std::cout << t << " ";
+            visited[t] = 1;
+            for (link k = adjList[t]; k != 0; k = k->next) q.push(k->item);
+        }
+    }
 }
