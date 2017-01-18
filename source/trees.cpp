@@ -1,4 +1,5 @@
 #include "trees.h"
+#include <cstring>
 #include <queue>
 #include <stack>
 #include <utility>
@@ -177,8 +178,7 @@ void BinaryTree::postorderTraversal (void) {
   link t = root;
   bool done = false;
 
-  //while (!done) {
-  do {
+  while (!done) {
     while (t) { //explore left until possible
       if (t->r) s.push(t->r); //push right
       s.push(t); //push node
@@ -198,7 +198,7 @@ void BinaryTree::postorderTraversal (void) {
       t = 0;
     }
     if (s.empty()) done = true;
-  }while (!s.empty());
+  }
 }
 
 void testTreeTraversal (void) {
