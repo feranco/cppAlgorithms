@@ -1,7 +1,7 @@
 #include "graph.h"
 #include <iostream>
 #include <stdio.h>
-#include "sorting.h"
+#include "testSorting.h"
 
 using namespace std;
 
@@ -13,7 +13,8 @@ int main(int argc, char* argv[])
   g.build(v);
   g.recDepthFirst();
   */
-  testSorting();
+  //testSorting();
+  sortRecord(3);
   return 0;
 }
 
