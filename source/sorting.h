@@ -1,3 +1,5 @@
+
+
 #ifndef SORTING_H
 #define SORTING_H
 
@@ -79,7 +81,7 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
    
   //h-ordering the array for decreasing h
   for (int h = max; h >= 1; h=h/3) {
-    //std::cout << h << std::endl;
+    std::cout << h << std::endl;
      //h-ordering the array for the current h
     for (int i = h; i <= r; i++) {
       Item t = a[i];
@@ -97,5 +99,13 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
   
 }
 
+//Wrapper to implement sorting by index
+template <class Item>
+class IndexSorter {
+  Item* data;
+ public:
+  IndexSorter (Item* d):data(d) {}
+  bool operator() (const int lhs, const int rhs) { return data[lhs] < data[rhs]; }
+};
 
 #endif

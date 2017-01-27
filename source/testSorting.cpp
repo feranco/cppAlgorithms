@@ -2,16 +2,34 @@
 #include "sorting.h"
 #include "record.h"
 #include <iostream>
+#include <algorithm>  //sort
+#include <cstdlib>
 
 const int size = 5;
 
 void sortRecord (int len) {
   Record* r = new Record[len];
-  for (int i = 0; i < len; ++i) std::cin >> r[i];
+  //for (int i = 0; i < len; ++i) std::cin >> r[i];
   for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
   shellSort(r, 0, len-1);
   for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
-  
+  delete[] r;
+}
+
+void sortRecordByIndex (int len) {
+  Record* r  = new Record[len];
+  int* idx = new int[len];
+
+  for (int i = 0; i < len; ++i) idx[i] = i;
+  for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
+  std::sort(idx, idx+len, IndexSorter<Record>(r));
+  for (int i = 0; i < len; ++i) std::cout << idx[i];
+  delete[] r;
+  delete[] idx;
+}
+
+void inPlaceSorting (Item data[], int idx[], int n) {
+   
 }
 
 //test sorting algorithms with random integers

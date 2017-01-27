@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
   g.recDepthFirst();
   */
   //testSorting();
-  sortRecord(3);
+  //sortRecord(5);
+  sortRecordByIndex(5);
   return 0;
 }
 

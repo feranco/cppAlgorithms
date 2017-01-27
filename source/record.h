@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-//variable size record
+//student record
 class Student {
   char* name;
   int grade;
@@ -21,6 +21,20 @@ class Student {
   friend std::istream& operator>>(std::istream& in, Student& rhs);
 };
 
-typedef Student Record;
+//n-dimensional integer vectors
+class IntVector {
+  static const int n = 3;
+  static bool init;
+  int v[n];
+ public:
+  IntVector ();
+  ~IntVector () {};
+  IntVector (const IntVector& rhs);
+  IntVector& operator= (const IntVector& rhs);
+  friend bool operator< (const IntVector& lhs, const IntVector& rhs);
+  friend std::ostream& operator<<(std::ostream& out, const IntVector& rhs);
+};
+
+typedef IntVector Record;
 
 #endif
