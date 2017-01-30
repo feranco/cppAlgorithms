@@ -5,7 +5,7 @@
 #include <algorithm>  //sort
 #include <cstdlib>
 
-const int size = 5;
+const int size = 12;
 
 void sortRecord (int len) {
   Record* r = new Record[len];
@@ -23,13 +23,11 @@ void sortRecordByIndex (int len) {
   for (int i = 0; i < len; ++i) idx[i] = i;
   for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
   std::sort(idx, idx+len, IndexSorter<Record>(r));
-  for (int i = 0; i < len; ++i) std::cout << idx[i];
+  for (int i = 0; i < len; ++i) std::cout << idx[i] << std::endl;;
+  inPlaceSorting (r, idx, len);
+  for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
   delete[] r;
   delete[] idx;
-}
-
-void inPlaceSorting (Item data[], int idx[], int n) {
-   
 }
 
 //test sorting algorithms with random integers

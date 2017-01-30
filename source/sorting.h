@@ -99,6 +99,28 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
   
 }
 
+//Reorder objects in data based on the order specified in index
+//n is the size of both data and idx
+template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
+   
+  for (int i = 0; i < n; ++i) {
+    //Check if the i-th element is not ordered
+    if (idx[i] != i) {
+      Item tmp = data[i];
+      int k = i;
+      while (idx[k] != i) {
+	int j = k;
+	data[k] = data[idx[k]];
+	k = idx[j];
+	idx[j] = j;
+	//j = k;
+      }
+      data[k] = tmp;
+      idx[k] = k;
+    }
+  }
+}
+
 //Wrapper to implement sorting by index
 template <class Item>
 class IndexSorter {
@@ -107,5 +129,7 @@ class IndexSorter {
   IndexSorter (Item* d):data(d) {}
   bool operator() (const int lhs, const int rhs) { return data[lhs] < data[rhs]; }
 };
+
+
 
 #endif

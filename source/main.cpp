@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
   */
   //testSorting();
   //sortRecord(5);
-  sortRecordByIndex(5);
+  sortRecordByIndex(10);
   return 0;
 }
 
