@@ -106,15 +106,18 @@ template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
   for (int i = 0; i < n; ++i) {
     //Check if the i-th element is not ordered
     if (idx[i] != i) {
+      //Save the i-th element
       Item tmp = data[i];
       int k = i;
+      //Put the element that should be the k-th in the right position
+      //and update idx accordingly
       while (idx[k] != i) {
 	int j = k;
 	data[k] = data[idx[k]];
 	k = idx[j];
 	idx[j] = j;
-	//j = k;
       }
+      //Put the i-th element in the right position
       data[k] = tmp;
       idx[k] = k;
     }

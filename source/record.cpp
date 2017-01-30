@@ -74,3 +74,9 @@ std::ostream& operator<<(std::ostream& out, const IntVector& rhs) {
   out << std::endl;
   return out;
 }
+
+bool operator< (const RecordPtr& lhs, const RecordPtr& rhs) {
+  int i = 0;
+  while (lhs.v[i] == rhs.v[i] && i < lhs.n)  ++i;
+  return lhs.v[i] < rhs.v[i];
+}

@@ -37,4 +37,10 @@ class IntVector {
 
 typedef IntVector Record;
 
+struct RecordPtr {
+  Record* r;
+  RecordPtr () {r = 0;}
+  friend bool operator< (const RecordPtr& lhs, const RecordPtr& rhs);
+};
+
 #endif
