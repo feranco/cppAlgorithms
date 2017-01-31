@@ -40,6 +40,8 @@ void sortRecordByPtr (int len) {
   for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
   insertionSort(rp, 0, len-1);
   for (int i = 0; i < len; ++i) std::cout << rp[i].r << std::endl;
+  inPlaceSorting2 (r, rp, len);
+  for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
   delete[] r;
   delete[] rp;
 }

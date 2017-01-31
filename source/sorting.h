@@ -123,22 +123,21 @@ template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
 
 //Reorder objects in data based on the order specified in ptr
 //n is the size of both data and ptr
-template<typename Item> void inPlaceSorting (Item data[], Item* ptr[], int n) {
+template<typename Item, typename ItemPtr> void inPlaceSorting2 (Item data[], ItemPtr ptr[], int n) {
   for (int i = 0; i < n; ++i) {
-    if(ptr[i] != &data[i]) {
+    if(ptr[i].r != &data[i]) {
        //Save the i-th element
       Item tmp = data[i];
-      Item* k = ptr[i];
-      //int k = i
+      int k = i;
 
-      //while (ptr[k] != &data[i]) {
-      while (k != &data[i]) {
+      while (ptr[k].r != &data[i]) {
 	int j = k;
 	data[k] = *ptr[k];
-	k = idx[j];
-	idx[j] = j;
+	k = ((ptr[j] - data) / sizeof(Item));
+	ptr[j] = &data[j];
       }
-
+      data[k] = tmp;
+      ptr[k] = &data[k];
     }
   }
 }
