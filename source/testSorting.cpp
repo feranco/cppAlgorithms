@@ -7,6 +7,7 @@
 
 const int size = 12;
 
+//test function to sort an array of Record
 void sortRecord (int len) {
   Record* r = new Record[len];
   //for (int i = 0; i < len; ++i) std::cin >> r[i];
@@ -16,6 +17,7 @@ void sortRecord (int len) {
   delete[] r;
 }
 
+//test function to sort an array of Record by index
 void sortRecordByIndex (int len) {
   Record* r  = new Record[len];
   int* idx = new int[len];
@@ -28,6 +30,18 @@ void sortRecordByIndex (int len) {
   for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
   delete[] r;
   delete[] idx;
+}
+
+//test function to sort an array of Record by ptr
+void sortRecordByPtr (int len) {
+  Record* r  = new Record[len];
+  RecordPtr* rp = new RecordPtr[len];
+  for (int i = 0; i < len; ++i) rp[i].r = &r[i];
+  for (int i = 0; i < len; ++i) std::cout << r[i] << std::endl;
+  insertionSort(rp, 0, len-1);
+  for (int i = 0; i < len; ++i) std::cout << rp[i].r << std::endl;
+  delete[] r;
+  delete[] rp;
 }
 
 //test sorting algorithms with random integers

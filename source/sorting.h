@@ -1,5 +1,3 @@
-
-
 #ifndef SORTING_H
 #define SORTING_H
 
@@ -101,8 +99,7 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
 
 //Reorder objects in data based on the order specified in index
 //n is the size of both data and idx
-template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
-   
+template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {  
   for (int i = 0; i < n; ++i) {
     //Check if the i-th element is not ordered
     if (idx[i] != i) {
@@ -120,6 +117,28 @@ template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
       //Put the i-th element in the right position
       data[k] = tmp;
       idx[k] = k;
+    }
+  }
+}
+
+//Reorder objects in data based on the order specified in ptr
+//n is the size of both data and ptr
+template<typename Item> void inPlaceSorting (Item data[], Item* ptr[], int n) {
+  for (int i = 0; i < n; ++i) {
+    if(ptr[i] != &data[i]) {
+       //Save the i-th element
+      Item tmp = data[i];
+      Item* k = ptr[i];
+      //int k = i
+
+      //while (ptr[k] != &data[i]) {
+      while (k != &data[i]) {
+	int j = k;
+	data[k] = *ptr[k];
+	k = idx[j];
+	idx[j] = j;
+      }
+
     }
   }
 }

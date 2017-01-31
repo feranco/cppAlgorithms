@@ -33,14 +33,17 @@ class IntVector {
   IntVector& operator= (const IntVector& rhs);
   friend bool operator< (const IntVector& lhs, const IntVector& rhs);
   friend std::ostream& operator<<(std::ostream& out, const IntVector& rhs);
+  friend struct IntVectorPtr;
+};
+
+//wrap struct to order by ptr
+struct IntVectorPtr {
+  IntVector* r;
+  IntVectorPtr () {r = 0;}
+  //defined as internal member to grant friendship with IntVector
+  bool operator< (const IntVectorPtr& rhs);
 };
 
 typedef IntVector Record;
-
-struct RecordPtr {
-  Record* r;
-  RecordPtr () {r = 0;}
-  friend bool operator< (const RecordPtr& lhs, const RecordPtr& rhs);
-};
-
+typedef IntVectorPtr RecordPtr;
 #endif
