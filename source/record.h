@@ -44,6 +44,8 @@ struct IntVectorPtr {
   bool operator< (const IntVectorPtr& rhs);
 };
 
+void inPlaceSorting2 (IntVector data[], IntVectorPtr ptr[], int n);
+
 typedef IntVector Record;
 typedef IntVectorPtr RecordPtr;
 #endif

@@ -120,7 +120,7 @@ template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
     }
   }
 }
-
+/*
 //Reorder objects in data based on the order specified in ptr
 //n is the size of both data and ptr
 template<typename Item, typename ItemPtr> void inPlaceSorting2 (Item data[], ItemPtr ptr[], int n) {
@@ -141,7 +141,7 @@ template<typename Item, typename ItemPtr> void inPlaceSorting2 (Item data[], Ite
     }
   }
 }
-
+*/
 //Wrapper to implement sorting by index
 template <class Item>
 class IndexSorter {

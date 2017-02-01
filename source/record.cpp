@@ -80,3 +80,22 @@ bool IntVectorPtr::operator< (const IntVectorPtr& rhs) {
   while (r->v[i] == rhs.r->v[i] && i < r->n)  ++i;
   return r->v[i] < rhs.r->v[i];
 }
+
+void inPlaceSorting2 (IntVector data[], IntVectorPtr ptr[], int n) {
+  for (int i = 0; i < n; ++i) {
+    if(ptr[i].r != &data[i]) {
+       //Save the i-th element
+      IntVector tmp = data[i];
+      int k = i;
+
+      while (ptr[k].r != &data[i]) {
+	int j = k;
+	data[k] = *ptr[k].r;
+	k = ((ptr[j].r - data) / sizeof(IntVector));
+	ptr[j].r = &data[j];
+      }
+      data[k] = tmp;
+      ptr[k].r = &data[k];
+    }
+  }
+}
