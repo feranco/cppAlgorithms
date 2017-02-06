@@ -1,6 +1,7 @@
 #include "list.h"
 #include <cstdlib> //rand
 
+#if 0
 List::List(int n) {
   srand(time(0));
   head = new Node(rand()%1000,0);
@@ -277,3 +278,5 @@ Item ListArray::selectLeader(int m) {
   }
   return item[next[x]];
 }
+
+#endif
