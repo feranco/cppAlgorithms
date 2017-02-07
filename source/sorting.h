@@ -94,7 +94,34 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
     //for (int i = 0; i <= r; ++i) std::cout << a[i] << " ";
     //std::cout << std::endl; 
   }
-  
+}
+
+//return the index of the pivot in the right place
+template<typename Item> int partition(Item a[], int l, int r) {
+  Item pivot = a[r];
+  int i = l-1;
+  int j = r;
+
+  while (i < j) {
+    while (a[++i] < pivot);
+    while (a[--j] > pivot || j == l);
+    Item tmp = a[i];
+    a[i] = a[j];
+    a[j] = tmp;
+  }
+  a[r] = a[i];
+  a[i] = pivot;
+  return i;
+}
+
+//quick sort implementation
+//
+template<typename Item> void quickSort(Item a[], int l, int r) {
+ 
+  if (l>=r) return;   //end if size <= 1
+  int pivot = partition (a, l, r); //put the pivot in the right place and return its index
+  quicksort (a, l, pivot-1);
+  quicksort (a, pivot+1, r);
 }
 
 //Reorder objects in data based on the order specified in index

@@ -3,6 +3,13 @@
 #include <iostream>
 
 template <class Item>
+class List;
+
+template <class Item>
+std::ostream& operator<<(std::ostream& out, const List<Item>& rhs);
+
+
+template <class Item>
 class List {
    struct Node {
      Item  item;
@@ -14,15 +21,15 @@ class List {
    typedef Node* Link;
    Link head;
    void quicksortRec (Link& headRec, Link& tailRec);
-   Link partition (Link& headRec, Link tailRec);
+   Link partition (Link& headRec, Link& tailRec);
    
  public:
    List(){head = 0;};
    ~List();
    List(const List& l);
    void quicksort (void);
-   friend std::ostream& operator<<(std::ostream& out, const List& rhs);
-  
+   void insertInFront (Item item);
+   friend std::ostream& operator<< <> (std::ostream& out, const List& rhs);
 };
 
 template <class Item>
@@ -46,10 +53,16 @@ List<Item>::List(const List& ml) {
 }
 
 template <class Item>
+void List<Item>::insertInFront (Item item) {
+  Link tmp = new Node(item, head);
+  head = tmp;
+}
+
+template <class Item>
 void List<Item>::quicksort (void) {
   Link tail = head;
   while (tail->next != 0) tail = tail->next;
-  quicksort(head, tail);
+  quicksortRec(head, tail);
 }
 
 template <class Item>
@@ -63,7 +76,7 @@ void List<Item>::quicksortRec (Link& headRec, Link& tailRec) {
 }
 
 template <class Item>
-Link List<Item>::partition (Link& headRec, Link& tailRec) {
+typename List<Item>::Link List<Item>::partition (Link& headRec, Link& tailRec) {
   Node NodeA(0,0);
   Node NodeB(0,0);
   Link left = &NodeA;
@@ -73,9 +86,11 @@ Link List<Item>::partition (Link& headRec, Link& tailRec) {
   for (Link t = headRec; t != tailRec; t = t->next) {
     if (t->item < v->item) {
       left->next = t;
+      left = left->next;
     }
     else {
       right->next = t;
+      right = right->next;
     }
   }
   left->next = v;
@@ -86,9 +101,10 @@ Link List<Item>::partition (Link& headRec, Link& tailRec) {
   return v;
 }
 
+
 template <class Item>
 std::ostream& operator<<(std::ostream& out, const List<Item>& rhs) {
-  Link t = rhs.head;
+  typename List<Item>::Link t = rhs.head;
   do {
     out << t->item << " ";
     t = t->next;
