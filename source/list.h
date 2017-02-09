@@ -58,6 +58,8 @@ void List<Item>::insertInFront (Item item) {
   head = tmp;
 }
 
+// The main function for quick sort, just a wrapper
+// over recursive function quickSortRec()
 template <class Item>
 void List<Item>::quicksort (void) {
   Link tail = head;
@@ -65,42 +67,63 @@ void List<Item>::quicksort (void) {
   quicksortRec(head, tail);
 }
 
+// Implement the sorting for the element between
+// its argument
 template <class Item>
-void List<Item>::quicksortRec (Link& headRec, Link& tailRec) {
-  if (headRec == tailRec) return;
+void List<Item>::quicksortRec(Link& headRec, Link& tailRec) {
+
+  //base condition
+  if (!headRec || headRec == tailRec) return;
+  //partition the list updating head and tail
   Link v = partition(headRec, tailRec);
-  Link prev = headRec;
-  while (prev->next != v) prev = prev->next;
-  quicksortRec (headRec, prev);
-  quicksortRec (v->next, tailRec);
+
+  //if pivot is the smallest there is no need
+  //of recursion on the left side
+  if (headRec != v) {
+    Link t = headRec;
+    //find the node before the pivot
+    while (t->next != v) t = t->next;  
+    quicksortRec(headRec, t);
+  }
+  //if pivot is the biggest there is no need
+  //of recursion on the right side
+  if (v!= tailRec) quicksortRec(v->next, tailRec);
 }
 
+// Partitions the list taking the last element as the pivot
+// During partition, both the head and end of the list might change
+// so the corresponding arguments are references
+// return a pointer to the pivot
 template <class Item>
-typename List<Item>::Link List<Item>::partition (Link& headRec, Link& tailRec) {
-  Node NodeA(0,0);
-  Node NodeB(0,0);
-  Link left = &NodeA;
-  Link right = &NodeB;
-  Link v = tailRec;
- 
-  for (Link t = headRec; t != tailRec; t = t->next) {
+typename List<Item>::Link List<Item>::partition(Link& headRec, Link& tailRec) {
+	
+  Link t = headRec;     //current node
+  Link v = tailRec;     //pivot node
+  Link last = v->next;  
+  Link newHead, newTail;
+  newHead = newTail = v;
+
+  while (t != v) {
+    Link next = t->next;
     if (t->item < v->item) {
-      left->next = t;
-      left = left->next;
+      //update head if current node
+      //is lower than pivot
+      t->next = newHead;
+      newHead = t;
     }
     else {
-      right->next = t;
-      right = right->next;
+      //update tail if current node
+      //is bigger than pivot
+      newTail->next = t;
+      newTail = newTail->next;
     }
+    t = next;
   }
-  left->next = v;
-  right->next = v->next;
-  v->next =  NodeB.next;
-  headRec = NodeA.next;
-  tailRec = right;
+  newTail->next = last;
+  headRec = newHead;
+  tailRec = newTail;
   return v;
 }
-
 
 template <class Item>
 std::ostream& operator<<(std::ostream& out, const List<Item>& rhs) {

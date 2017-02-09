@@ -1,4 +1,4 @@
-#include "list.h"
+#include "testList.h"
 #include <iostream>
 
 using namespace std;
@@ -7,14 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  List<int> list;
-  srand(time(0));
-  for (int i = 0; i < 15; ++i) {
-    list.insertInFront(rand()%1000);
-  }
-  cout << list << endl;
-  list.quicksort();
-cout << list << endl;
+  testQuickSort(15);
   return 0;
 }
 
