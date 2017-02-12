@@ -104,10 +104,12 @@ template<typename Item> int partition(Item a[], int l, int r) {
 
   while (i < j) {
     while (a[++i] < pivot);
-    while (a[--j] > pivot || j == l);
-    Item tmp = a[i];
-    a[i] = a[j];
-    a[j] = tmp;
+    while (a[--j] > pivot && j >l ); //if(j==l) break;
+    if(i < j) {
+      Item tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+    }
   }
   a[r] = a[i];
   a[i] = pivot;
@@ -116,13 +118,63 @@ template<typename Item> int partition(Item a[], int l, int r) {
 
 //quick sort implementation
 //
-template<typename Item> void quickSort(Item a[], int l, int r) {
+template<typename Item> void quicksort(Item a[], int l, int r) {
  
   if (l>=r) return;   //end if size <= 1
   int pivot = partition (a, l, r); //put the pivot in the right place and return its index
   quicksort (a, l, pivot-1);
   quicksort (a, pivot+1, r);
 }
+
+#include <stack>
+
+template<typename Item> void quicksortIt (Item a[], int l, int r) {
+  std::stack<int> bounds;
+  int pivot;
+  bool pop = false;
+
+  do{
+    //pop l and r
+    if(pop) {
+      r = bounds.top();
+      bounds.pop();
+      l = bounds.top();
+      bounds.pop();
+    }
+
+    pivot = partition (a, l, r);
+    pop = true;
+
+    //push the bigger subset first
+    if ((pivot-l) > (r-pivot)) {
+      //stop if r <= l
+      if ((pivot-1) > l) {
+	bounds.push (l);
+	bounds.push (pivot-1);
+      }
+      //stop if r <= l
+      //set l without push into the stack
+      if (r > (pivot+1)) {
+	l = pivot+1;
+	pop = false;
+      }  
+    }
+    else {
+      //stop if r <= l
+      if (r > (pivot+1)) {
+	bounds.push (pivot+1);
+	bounds.push (r);
+      }
+      //stop if r <= l
+      //set r without push into the stack
+      if ((pivot-1) > l) {
+	r = pivot-1;
+	pop = false;
+      }
+    }
+  }while (!bounds.empty());
+}
+
 
 //Reorder objects in data based on the order specified in index
 //n is the size of both data and idx
@@ -147,28 +199,7 @@ template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
     }
   }
 }
-/*
-//Reorder objects in data based on the order specified in ptr
-//n is the size of both data and ptr
-template<typename Item, typename ItemPtr> void inPlaceSorting2 (Item data[], ItemPtr ptr[], int n) {
-  for (int i = 0; i < n; ++i) {
-    if(ptr[i].r != &data[i]) {
-       //Save the i-th element
-      Item tmp = data[i];
-      int k = i;
 
-      while (ptr[k].r != &data[i]) {
-	int j = k;
-	data[k] = *ptr[k];
-	k = ((ptr[j] - data) / sizeof(Item));
-	ptr[j] = &data[j];
-      }
-      data[k] = tmp;
-      ptr[k] = &data[k];
-    }
-  }
-}
-*/
 //Wrapper to implement sorting by index
 template <class Item>
 class IndexSorter {

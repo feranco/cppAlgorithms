@@ -5,7 +5,7 @@
 #include <algorithm>  //sort
 #include <cstdlib>
 
-const int size = 12;
+const int size = 26;
 
 //test function to sort an array of Record
 void sortRecord (int len) {
@@ -55,7 +55,7 @@ void testSorting (void) {
   for (int i = 0; i < size; ++i) std::cout << test[i] << " ";
   std::cout << std::endl; 
   std::clock_t start = std::clock();
-  shellSort(test, 0, size-1);
+  quicksortIt(test, 0, size-1);
   std::clock_t end = std::clock() - start;
   std::cout << "Time elapsed: "<< ((static_cast<double>(end-start)/CLOCKS_PER_SEC)/1000) << " ms" << std::endl; 
   for (int i = 0; i < size; ++i) std::cout << test[i] << " ";

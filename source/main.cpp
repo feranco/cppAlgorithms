@@ -1,4 +1,4 @@
-#include "testList.h"
+#include "testSorting.h"
 #include <iostream>
 
 using namespace std;
@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  testQuickSort(15);
+  testSorting();
   return 0;
 }
 
