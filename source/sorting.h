@@ -117,7 +117,6 @@ template<typename Item> int partition(Item a[], int l, int r) {
 }
 
 //quick sort implementation
-//
 template<typename Item> void quicksort(Item a[], int l, int r) {
  
   if (l>=r) return;   //end if size <= 1
@@ -128,6 +127,7 @@ template<typename Item> void quicksort(Item a[], int l, int r) {
 
 #include <stack>
 
+//iterative quicksort implementation
 template<typename Item> void quicksortIt (Item a[], int l, int r) {
   std::stack<int> bounds;
   int pivot;
@@ -175,6 +175,29 @@ template<typename Item> void quicksortIt (Item a[], int l, int r) {
   }while (!bounds.empty());
 }
 
+//select the pivot as the median of five and put the pivot in r-3
+template<typename Item> void medianOfFive (Item a[], int l, int r) {
+  Item aux[] = {a[l], a[(l+r)/4], a[(l+r)/2], a[3*(l+r)/4], a[r]};
+}
+
+//quicksort implementation improved with median of five
+//and not ordering subset with less than 11 elements
+template<typename Item> void quicksortImp (Item a[], int l, int r) {
+
+  //stop recursion if size of a is
+  //less than minimum subset size
+  static const int minSubset = 11;
+  if ((r-l) < maxSubset) return;
+
+  
+  
+}
+
+//quicksort + insertionsort implementation
+template<typename Item> void hybridsort (Item a[], int l, int r) {
+  quicksortImp(a, l, r);
+  insertionsort(a, l, r);
+}
 
 //Reorder objects in data based on the order specified in index
 //n is the size of both data and idx
