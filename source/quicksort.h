@@ -147,4 +147,49 @@ template<typename Item> void hybridsort (Item a[], int l, int r) {
   insertionSort(a, l, r);
 }
 
+//quicksort with three-way partition for array with duplicates
+//the algorithm uses the following invariants:
+//elements before a[lt] are smaller than pivot
+//elements between a[i] and a[rt] are equal to pivot
+//elements after a[rt] are bigger than pivot  
+template<typename Item> void threeWayQuicksort(Item a[], int l, int r) {
+  Item pivot = a[r];
+  int lt, rt, i;
+  lt = l;
+  rt = r;
+  i  = r-1;
+
+  if (l>=r) return;  //stop if siyze <= 1
+  
+  while (lt <= i) {
+    if (a[i] > pivot)  swap(a, i--, rt--);
+    else if (a[i] < pivot)  swap(a, i, lt++);
+    else if (a[i] == pivot) --i;
+  } 
+  for (int i = l; i < r; ++i) std::cout << a[i] << " ";
+  std::cout << std::endl; 
+  threeWayQuicksort(a, l, lt-1);
+  threeWayQuicksort(a, rt+1 , r);
+}
+
+//find k-median using quicksort partition
+template<typename Item> void median(Item a[], int l, int r, int k) {
+  if (k < l || k > r) return;
+  int pivot = partition(a, l, r);
+  if (k == pivot) return;
+  if (k < pivot) median(a, l, pivot-1, k);
+  if (k > pivot) median(a, pivot+1, r, k);
+}
+
+//find k-median using quicksort partition (iterative)
+template<typename Item> void medianIt(Item a[], int l, int r, int k) {
+  if (k < l || k > r) return;
+  int pivot = -1
+  while (k != pivot) {
+    pivot = partition(a, l, r);
+    if (k < pivot) r = pivot-1;
+    if (k > pivot) l = pivot+1;
+  }
+}
+
 #endif

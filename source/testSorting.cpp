@@ -6,7 +6,7 @@
 #include <algorithm>  //sort
 #include <cstdlib>
 
-const int size = 42;
+const int size = 30;
 
 //test function to sort an array of Record
 void sortRecord (int len) {
@@ -52,11 +52,11 @@ void sortRecordByPtr (int len) {
 void testSorting (void) { 
   int test[size]; 
   srand(time(0));
-  for (int i = 0; i < size; ++i) test[i] = rand() % 10000;
+  for (int i = 0; i < size; ++i) test[i] = rand() % 1000;
   for (int i = 0; i < size; ++i) std::cout << test[i] << " ";
   std::cout << std::endl; 
   std::clock_t start = std::clock();
-  hybridsort(test, 0, size-1);
+  quicksort(test, 0, size-1);
   std::clock_t end = std::clock() - start;
   std::cout << "Time elapsed: "<< ((static_cast<double>(end-start)/CLOCKS_PER_SEC)/1000) << " ms" << std::endl; 
   for (int i = 0; i < size; ++i) std::cout << test[i] << " ";
