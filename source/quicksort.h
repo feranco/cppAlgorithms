@@ -184,7 +184,7 @@ template<typename Item> void median(Item a[], int l, int r, int k) {
 //find k-median using quicksort partition (iterative)
 template<typename Item> void medianIt(Item a[], int l, int r, int k) {
   if (k < l || k > r) return;
-  int pivot = -1
+  int pivot = -1;
   while (k != pivot) {
     pivot = partition(a, l, r);
     if (k < pivot) r = pivot-1;

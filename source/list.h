@@ -22,12 +22,16 @@ class List {
    Link head;
    void quicksortRec (Link& headRec, Link& tailRec);
    Link partition (Link& headRec, Link& tailRec);
+
+   Link merge (Link l, Link r);
+   Link mergesort(Link l);
    
  public:
    List(){head = 0;};
    ~List();
    List(const List& l);
    void quicksort (void);
+   void mergesort (void);
    void insertInFront (Item item);
    friend std::ostream& operator<< <> (std::ostream& out, const List& rhs);
 };
@@ -135,6 +139,56 @@ std::ostream& operator<<(std::ostream& out, const List<Item>& rhs) {
   while(t!=0);
 
   return out;
+}
+
+//merge implementation for linked list
+template <class Item>
+typename List<Item>::Link List<Item>::merge(Link l, Link r) {
+  Node mergedHead(0);
+  Link merged = &mergedHead;
+  while (l && r) {
+    if (l->item > r->item) {
+      merged->next = r;
+      r = r->next;
+    }
+    else {
+      merged->next = l;
+      l = l->next;
+    }
+    merged = merged->next;
+  }
+  if (!l) merged->next = r;
+  else    merged->next = l;
+  return mergedHead.next;
+}
+
+//merge implementation for linked list
+template <class Item>
+typename List<Item>::Link List<Item>::mergesort(Link list) {
+
+  if (!list->next || !list) return list;
+  
+  Link l, r;
+  l = list;
+  r = list->next;//r = list fails when list has two nodes
+  
+  while (r != 0 && r->next != 0) {
+    l = l->next;
+    r = r->next->next;
+  }
+  r = l->next;
+  l->next = 0;
+  l = list;
+  l = mergesort(l);
+  r = mergesort(r);
+ return merge(l,r);
+  
+}
+
+//merge implementation for linked list
+template <class Item>
+void List<Item>::mergesort(void) {
+  head = mergesort(head);
 }
 
 #if 0
