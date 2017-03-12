@@ -96,6 +96,20 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
   }
 }
 
+template<typename Item> void keyIndexedCounting (int data[], int l, int r) {
+  //get max index in data
+  int max_index = 0;
+  for (int i = l; i < =r; ++i) {
+    if (data[i] > max_index) max_index = data[i];
+  }
+
+  int* cnt = new int[max_index+2];//array used to distribute elements of data in tmp
+  int* tmp = new int[r-l+1];//contain elements of data in the right place
+
+  for (int i = 0; i <= max_index; ++i) cnt[i] = 0;
+  for (int i = l; i <= r; ++i) 
+}
+
 //Reorder objects in data based on the order specified in index
 //n is the size of both data and idx
 template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {  
@@ -119,6 +133,8 @@ template<typename Item> void inPlaceSorting (Item data[], int idx[], int n) {
     }
   }
 }
+
+
 
 //Wrapper to implement sorting by index
 template <class Item>
