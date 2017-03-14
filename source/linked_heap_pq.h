@@ -1,5 +1,7 @@
-#ifdef LINKED_HEAP_PQ_H
+#ifndef LINKED_HEAP_PQ_H
 #define LINKED_HEAP_PQ_H
+
+#include <iostream>
 
 template <class Item>
 class LinkedHeapPQ {
@@ -14,20 +16,38 @@ class LinkedHeapPQ {
   Link lastInserted;
   void FixDown (Link n);
   void FixUp (Link n);
-  void getSize (Link n);
+  int getSize (Link n) const;
   void swap (Link a, Link b);
-  void restoreLastInserted (Link n);
+  void restoreLastInserted (void);
+  Link insertR (Link n, Item v);
+  
+  //for debug
+  void dumpNode (std::ostream& os, Item v, int h) const  {
+    for (int i = 0; i < h; ++i) os << " ";
+    os << v << std::endl;
+  }
+  void dump (std::ostream& os, Link t, int h) const  {
+    if (t == 0) {dumpNode(os, '*', h); return;}
+    dump (os, t->right, h+1);
+    dumpNode(os, t->item, h);
+    dump (os, t->left, h+1);
+  }
 
  public:
   typedef Node* Handle;
   LinkedHeapPQ (void)  {root = 0;}
   void change (Handle h, Item v) { h->item = v; FixDown(h); FixUp(h);}
   Handle insert (Item v);
-  Item max(void) {return root->item;}
+  Item max(void) const {return root->item;}
+  //for debug
+  friend std::ostream& operator<< (std::ostream& os, const LinkedHeapPQ& rhs)  {
+    rhs.dump(os, rhs.root, 0);
+    return os;
+  }
 };
 
 template <class Item>
-void LinkedHeapPQ<Item>:swap (Link a, Link b) {
+void LinkedHeapPQ<Item>::swap (Link a, Link b) {
 
   //handle special case when a is parent of b
   //or b is parent of a
@@ -92,16 +112,16 @@ void LinkedHeapPQ<Item>::FixUp (Link n) {
 }
 
 template <class Item>
-void LinkedHeapPQ<Item>:getSize(Link n) {
+int LinkedHeapPQ<Item>::getSize(Link n) const {
   if (n == 0) return 0;
-  else return n.size;
+  else return n->size;
 }
 
 template <class Item>
-Handle  LinkedHeapPQ<Item>::insertR (Link n, Item v) {
+typename LinkedHeapPQ<Item>::Link LinkedHeapPQ<Item>::insertR (Link n, Item v) {
   if (n == 0) {
     lastInserted = new Node(v);
-    return last inserted;
+    return lastInserted;
   }
 
   if (getSize(n->right) < getSize(n->left)) {
@@ -116,13 +136,13 @@ Handle  LinkedHeapPQ<Item>::insertR (Link n, Item v) {
   }
 
   //update size n
-  n.size = getSize(n->right) + getSize(n->left) + 1;
+  n->size = getSize(n->right) + getSize(n->left) + 1;
   return n;
   
 }
 
 template <class Item>
-Handle  LinkedHeapPQ<Item>::insert (Item v) {
+typename LinkedHeapPQ<Item>::Handle  LinkedHeapPQ<Item>::insert (Item v) {
   Handle h;
   if (root == 0){
    root = new Node(v);
@@ -132,7 +152,7 @@ Handle  LinkedHeapPQ<Item>::insert (Item v) {
     lastInserted = insertR(root, v);
     FixUp(lastInserted);
     h = lastInserted;
-    //restoreLastInserted();
+    restoreLastInserted();
   }
   return h;
 }
@@ -142,7 +162,8 @@ void  LinkedHeapPQ<Item>::restoreLastInserted (void) {
   if (root == 0) lastInserted = 0;
   Link tmp = root;
   while (tmp->left != 0 && tmp->right != 0) {
-    tmp = (getSize(tmp->left) < getSize(tmp->right)) : tmp->right ? tmp->left;
+    if (getSize(tmp->left) < getSize(tmp->right)) tmp = tmp->right;
+    else tmp = tmp->left;
   }
   lastInserted = tmp;//lastInserted is a leaf of the bigger subtree
 }

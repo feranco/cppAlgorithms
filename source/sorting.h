@@ -95,7 +95,7 @@ template<typename Item> void shellSort(Item a[], int l, int r) {
     //std::cout << std::endl; 
   }
 }
-
+/*
 template<typename Item> void keyIndexedCounting (int data[], int l, int r) {
   //get max index in data
   int max_index = 0;
@@ -108,7 +108,7 @@ template<typename Item> void keyIndexedCounting (int data[], int l, int r) {
 
   for (int i = 0; i <= max_index; ++i) cnt[i] = 0;
   for (int i = l; i <= r; ++i) 
-}
+  }*/
 
 //Reorder objects in data based on the order specified in index
 //n is the size of both data and idx
