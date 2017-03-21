@@ -1,18 +1,19 @@
 #ifndef LINKED_HEAP_PQ_H
 #define LINKED_HEAP_PQ_H
 
-
 #include <iostream>
 
 template <class Item>
 class LinkedHeapPQ {
+
   struct Node {
     int size;//subtree size
     Item item;
     Node* parent, *left, *right;
     Node(Item v) { item = v; parent = left = right = 0; size = 1; };
-  };
+    };
   typedef Node* Link;
+
   Link root;
   Link lastInserted;
   void FixDown(Link n);
@@ -23,19 +24,14 @@ class LinkedHeapPQ {
   void swap(Link a, Link b);
   void restoreLastInserted(void);
   Link insertR(Link n, Item v);
+  int maxHeight(Link p);
+
 
   //for debug
-  void dumpNode(std::ostream& os, Item v, int h) const {
-    for (int i = 0; i < h; ++i) os << " ";
-    os << v << std::endl;
-  }
-  void dump(std::ostream& os, Link t, int h) const {
-    if (t == 0) { dumpNode(os, 0, h); return; }
-    dump(os, t->right, h + 1);
-    dumpNode(os, t->item, h);
-    dump(os, t->left, h + 1);
-  }
-
+  void dumpIntNode(std::ostream& os, Item v, int h) const;
+  void dumpExtNode(std::ostream& os, int h) const; 
+  void dump(std::ostream& os, Link t, int h) const;
+ 
  public:
   typedef Node* Handle;
   LinkedHeapPQ(void) { root = 0; }
@@ -48,7 +44,29 @@ class LinkedHeapPQ {
     rhs.dump(os, rhs.root, 0);
     return os;
   }
+
 };
+
+template <class Item>
+void LinkedHeapPQ<Item>::dumpIntNode(std::ostream& os, Item v, int h) const {
+  for (int i = 0; i < h; ++i) os << "  ";
+  os << v << std::endl;
+}
+
+template <class Item>
+void LinkedHeapPQ<Item>::dumpExtNode(std::ostream& os, int h) const {
+  for (int i = 0; i < h; ++i) os << "  ";
+  os << '*' << std::endl;
+}
+
+template <class Item>
+void LinkedHeapPQ<Item>::dump(std::ostream& os, Link t, int h) const {
+  if (t == 0) { dumpLeaf(os, h); return; }
+
+  dump(os, t->right, h + 3);
+  dumpNode(os, t->item, h);
+  dump(os, t->left, h + 3);
+}
 
 //special case wher p is the parent of c
 template <class Item>
@@ -170,6 +188,7 @@ int LinkedHeapPQ<Item>::getSize(Link n) const {
 //to be fixed
 template <class Item>
 void LinkedHeapPQ<Item>::remove(Handle h) {
+  std::cout << "rem " <<h->item << std::endl;
   //swap h with the lastInserted node
   swap(h, lastInserted);
 
@@ -234,5 +253,22 @@ void  LinkedHeapPQ<Item>::restoreLastInserted(void) {
     else tmp = tmp->left;
   }
   lastInserted = tmp;//lastInserted is a leaf of the bigger subtree
+}
+
+#include <iostream>
+#include <fstream>
+void testLinkedHeap(void) {
+  std::ofstream fout("tree_pretty.txt");
+  LinkedHeapPQ<int> pq;
+  LinkedHeapPQ<int>::Handle handle[12];
+  for (int i = 0; i < 12; ++i) handle[i] = pq.insert((rand() % 999) + 1);
+  std::cout << pq;
+  fout << pq;
+  //pq.change(handle[2], 21);
+  //std::cout << "------------" << endl;
+  //std::cout << pq;
+  std::cout << "------------" << std:endl;
+  pq.remove(handle[4]);
+  std::cout << pq;
 }
 #endif
