@@ -5,12 +5,12 @@ using namespace std;
 #include <cstdlib>
 #include "symbol_table_data.h"
 #include "symbol_table_test.h"
-#include "key_indexed_search_st.h"
+#include "unsorted_list_st.h"
 
 int main(int argc, char* argv[])
 {
 
-  KeyIdxSearch<StData,Key> st;
+  UnsortedListSt<StData,Key> st;
 
   testST(st);
   return 0;

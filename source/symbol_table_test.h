@@ -18,8 +18,11 @@ void testST (ST<Item,Key>& st) {
   st.visit();
   Item x = st.search(item.key());
   std::cout << "search hit: " << x;
-  x = st.search(22);
+  st.remove(x);
+  std::cout << "HHH";
+  x = st.search(x.key());
   std::cout << "search miss: " << x;
+  st.visit();
 }
 
 #endif
