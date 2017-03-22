@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 
+
 template <class Item>
 class MaxHeap {
   std::vector<Item> heap;
@@ -81,6 +82,9 @@ void MaxHeap<Item>::dump (void) const {
   }
   std::cout << std::endl;
 }
+
+#include <ctime>
+#include <cstdlib>
 
 void testMaxHeap (void) {
   const int size = 16;

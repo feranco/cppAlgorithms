@@ -4,14 +4,15 @@ using namespace std;
 #include <ctime>
 #include <cstdlib>
 #include "symbol_table_data.h"
+#include "symbol_table_test.h"
+#include "key_indexed_search_st.h"
 
 int main(int argc, char* argv[])
 {
-  StData d[10];
-  for (int i = 0; i < 10; ++i) {
-    d[i].rand();
-    cout << d[i];
-  }
+
+  KeyIdxSearch<StData,Key> st;
+
+  testST(st);
   return 0;
 }
 

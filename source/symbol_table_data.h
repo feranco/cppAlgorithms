@@ -15,44 +15,22 @@ class StData {
   char  c;
   float f;
 
-  std::random_device seed;
-  std::mt19937 mt;
-  std::uniform_int_distribution<int> dist;
-  std::uniform_int_distribution<int> distc;
-  std::uniform_real_distribution<float> distf;
+  //for data random generation
+  static std::random_device rd;//seed
+  static std::mt19937 mt;
+  static std::uniform_int_distribution<int> dist;
+  static std::uniform_int_distribution<int> distc;
+  static std::uniform_real_distribution<float> distf;
 
  public:
-  StData (): k(min_key){
-    std::random_device seed;
-    std::mt19937 gen(seed());
-    std::uniform_int_distribution<int> dist(0, 1000);
-    std::uniform_int_distribution<int> distc(65, 90);
-    std::uniform_real_distribution<int> distf(0, 100);
-    std::cout <<  dist(mt) << " ";
-  }
+  StData (): k(min_key){};
   Key  key () {return k;}
   bool null() {return k == min_key;}
   void rand (void);
   friend std::istream&  operator>> (std::istream& is, StData& rhs);
-  friend std::ostream& operator<< (std::ostream& os, StData& rhs);
-  
+  friend std::ostream& operator<< (std::ostream& os, StData& rhs);  
 };
 
-void StData::rand (void) {
-  k = dist(mt);
-  std::cout << k << " ";
-  c = static_cast<char>(distc(mt));
-  f = distf(mt);
-}
 
-std::istream&  operator>> (std::istream& is, StData& rhs) {
-  is >> rhs.k >> rhs.c >> rhs.f;
-  return is;
-}
-
-std::ostream& operator<< (std::ostream& os, StData& rhs) {
-  os << "k: "<< rhs.k << " c: " << rhs.c << " f: " << rhs.f << std::endl;
-  return os;
-}
 
 #endif
