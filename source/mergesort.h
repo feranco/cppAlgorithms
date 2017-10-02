@@ -49,7 +49,7 @@ void bitonicMerge(Item arr[], Item aux[], int l, int m, int r) {
   //set index back;
   i = 0;
   j = r;
-  for (int k = l; k <= r; ++k) arr[k] = (aux[i] <= aux[j]) ? aux[i++] : aux[j++];
+  for (int k = l; k <= r; ++k) arr[k] = (aux[i] <= aux[j]) ? aux[i++] : aux[j--];
 
 }
 
